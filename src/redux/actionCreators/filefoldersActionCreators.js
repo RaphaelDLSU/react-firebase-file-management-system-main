@@ -68,7 +68,6 @@ const setUserFolders = (data) => ({
 export const getUserFolders = (userId) => async (dispatch) => {
   if (userId) {
     database.docs
-      
       .get()
       .then((folders) => {
         const allFolders = [];

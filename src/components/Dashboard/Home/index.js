@@ -15,6 +15,7 @@ import "./index.css";
 import { getFirestore, doc, deleteDoc } from "firebase/firestore";
 import { toast } from "react-toastify";
 
+import SearchBar from '../../searchBar.js';
 
 
 
@@ -55,6 +56,8 @@ const db=getFirestore()
     
     
   };
+
+  
   const history = useHistory();
   const dispatch = useDispatch();
   const { isLoading, adminFolders, allUserFolders, userId, allUserFiles } =
@@ -69,10 +72,14 @@ const db=getFirestore()
       shallowEqual
     );
 
+
+
   const userFolders =
     allUserFolders &&
     allUserFolders.filter((folder) => folder.data.parent === "");
 
+
+    
   const createdUserFiles =
     allUserFiles &&
     allUserFiles.filter(
@@ -84,6 +91,27 @@ const db=getFirestore()
       (file) => file.data.parent === "" && file.data.url !== ""
     );
 
+  
+    const [list1, setList1] = useState(userFolders);
+    const [list2, setList2] = useState(createdUserFiles);
+    const [searchTerm, setSearchTerm] = useState('');
+    
+    const handleSearch = (term) => {
+      const filteredList1 = userFolders.filter(item =>
+        item.data.name.toString().toLowerCase().includes(searchTerm.toString().toLowerCase())
+      );
+  
+      const filteredList2 = createdUserFiles.filter(item =>
+        item.data.name.toString().toLowerCase().includes(searchTerm.toString().toLowerCase())
+      );
+  
+      setList1(filteredList1);
+      setList2(filteredList2);
+
+      console.log(list1)
+      console.log(list2)
+    };
+  
   useEffect(() => {
     if (isLoading && !adminFolders) {
       dispatch(getAdminFolders());
@@ -107,6 +135,13 @@ const db=getFirestore()
 
   return (
     <>
+    <input
+          type="text"
+          placeholder="Search..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+        <button onClick={handleSearch}>Search</button>
       <SubNav currentFolder="root folder" />
       {adminFolders && adminFolders.length > 0 && (
         <>
@@ -193,7 +228,7 @@ const db=getFirestore()
         <>
           <p className="text-center border-bottom py-2">Created Files</p>
           <Row style={{ height: "auto" }} className="pt-2 gap-2 pb-4 px-5">
-            {createdUserFiles.map(({ data, docId }) => (
+            {list1.map(({ data, docId }) => (
               <Col
               
                 onDoubleClick={() => history.push(`/dashboard/file/${docId}`)}
@@ -238,7 +273,7 @@ const db=getFirestore()
             style={{ height: "auto" }}
             className="pt-2  gap-2 pb-4 px-5"
           >
-            {uploadedUserFiles.map(({ data, docId }) => (
+            {list2.map(({ data, docId }) => (
               <Col 
                 onDoubleClick={() => history.push(`/dashboard/file/${docId}`)}
                 onClick={(e) => {
