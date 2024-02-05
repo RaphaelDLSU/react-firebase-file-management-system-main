@@ -1,7 +1,8 @@
-import firebase from "firebase/app";
-import "firebase/auth";
-import "firebase/firestore";
-import "firebase/storage";
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
+import 'firebase/compat/firestore';
+
+import "firebase/compat/storage";
 
 const firebaseConfig = {
   apiKey: process.env.React_App_apiKey,
@@ -22,6 +23,6 @@ export const database = {
   date: firebase.firestore.FieldValue.serverTimestamp(),
 };
 
-export const storage = firebase.storage();
+export const storage = firebase.storage();  
 
 export const auth = firebase.auth();

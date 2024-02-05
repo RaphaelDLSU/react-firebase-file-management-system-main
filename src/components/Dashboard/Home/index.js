@@ -10,6 +10,14 @@ import React, { useEffect,useState } from "react";
 import { Col, Row } from "react-bootstrap";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import "./index.css";
+
+import { getFirestore, doc, deleteDoc } from "firebase/firestore";
+import { toast } from "react-toastify";
+
+
+
+
 import {
   getAdminFiles,
   getAdminFolders,
@@ -19,13 +27,34 @@ import {
 import SubNav from "../SubNav.js";
 
 const Home = () => {
-  
-  const [isHovered, setIsHovered] = useState(false);
+  const [myState, setMyState] = useState([]);
 
-  const handleHover = () => {
-    setIsHovered(!isHovered);
+const db=getFirestore()
+
+  const [hoveredItem, setHoveredItem] = useState(null);
+
+  const handleMouseEnter = (index) => {
+    setHoveredItem(index);
   };
 
+  const handleMouseLeave = () => {
+    setHoveredItem(null);
+  };
+
+
+  const handleDeleteFolder = async (docId) => {
+    await deleteDoc(doc(db, "docs", docId)).then(result=>setMyState(result));
+    toast.success("Folder deleted Successfully!");
+    
+    
+  };
+  
+  const handleDeleteFile = async (docId) => {
+    await deleteDoc(doc(db, "files", docId)).then(result=>setMyState(result));
+    toast.success("File deleted Successfully!");
+    
+    
+  };
   const history = useHistory();
   const dispatch = useDispatch();
   const { isLoading, adminFolders, allUserFolders, userId, allUserFiles } =
@@ -84,7 +113,7 @@ const Home = () => {
           <p className="text-center border-bottom py-2">Admin Folders</p>
           <Row style={{ height: "150px"}} className="pt-2 pb-4 px-5">
             {adminFolders.map(({ data, docId }) => (
-              <Col
+              <Col 
                 onDoubleClick={() =>
                   history.push(`/dashboard/folder/admin/${docId}`)
                 }
@@ -101,7 +130,7 @@ const Home = () => {
                 }}
                 key={docId}
                 md={2}
-                className="border h-100  d-flex align-items-center justify-content-around flex-column py-1 rounded-2"
+                className="item"
               >
                 <FontAwesomeIcon
                   icon={faFolder}
@@ -115,14 +144,16 @@ const Home = () => {
         </>
       )}
       {userFolders && userFolders.length > 0 && (
+        
         <>
           <p className="text-center border-bottom py-2">Created Folders</p>
-          <Row style={{ height: "auto" }} className= {`pt-2 gap-2 pb-4 px-5 ${isHovered ? 'hovered' : ''}`}
+          <Row style={{ height: "auto" }} className= {`pt-2 gap-2 pb-4 px-5`}
           
           >
             
             {userFolders.map(({ data, docId }) => (
-              <Col style={{ backgroundColor: isHovered ? 'lightblue' : 'white'}} onMouseEnter={handleHover} onMouseLeave={handleHover}
+              <Col
+              
                 onDoubleClick={() => history.push(`/dashboard/folder/${docId}`)}
                 onClick={(e) => {
                   if (e.currentTarget.classList.contains("text-white")) {
@@ -137,8 +168,16 @@ const Home = () => {
                 }}
                 key={docId}
                 md={2}
-                className="border h-100 d-flex align-items-center justify-content-around flex-column py-1 rounded-2"
+                className="item"
+                onMouseEnter={() => handleMouseEnter(docId)}
+                onMouseLeave={handleMouseLeave}
               >
+                
+                {hoveredItem === docId && (
+                  <button onClick={() =>handleDeleteFolder(docId)}>
+                    Delete
+                  </button>
+                )}
                 <FontAwesomeIcon
                   icon={faFolder}
                   className="mt-3"
@@ -156,6 +195,7 @@ const Home = () => {
           <Row style={{ height: "auto" }} className="pt-2 gap-2 pb-4 px-5">
             {createdUserFiles.map(({ data, docId }) => (
               <Col
+              
                 onDoubleClick={() => history.push(`/dashboard/file/${docId}`)}
                 onClick={(e) => {
                   if (e.currentTarget.classList.contains("text-white")) {
@@ -170,8 +210,15 @@ const Home = () => {
                 }}
                 key={docId}
                 md={2}
-                className="border h-100 d-flex align-items-center justify-content-around flex-column py-1 rounded-2"
+                className="item"
+                onMouseEnter={() => handleMouseEnter(docId)}
+                onMouseLeave={handleMouseLeave}
               >
+                {hoveredItem === docId && (
+                  <button onClick={() =>handleDeleteFile(docId)}>
+                    Click me!
+                  </button>
+                )}
                 <FontAwesomeIcon
                   icon={faFileAlt}
                   className="mt-3"
@@ -192,7 +239,7 @@ const Home = () => {
             className="pt-2  gap-2 pb-4 px-5"
           >
             {uploadedUserFiles.map(({ data, docId }) => (
-              <Col
+              <Col 
                 onDoubleClick={() => history.push(`/dashboard/file/${docId}`)}
                 onClick={(e) => {
                   if (e.currentTarget.classList.contains("text-white")) {
@@ -207,8 +254,15 @@ const Home = () => {
                 }}
                 key={docId}
                 md={2}
-                className="border h-100 mr-2 d-flex align-items-center justify-content-around flex-column py-1 rounded-2"
+                className="item"
+                onMouseEnter={() => handleMouseEnter(docId)}
+                onMouseLeave={handleMouseLeave}
               >
+                {hoveredItem === docId && (
+                  <button onClick={() =>handleDeleteFile(docId)}>
+                    Click me!
+                  </button>
+                )}
                 <FontAwesomeIcon
                   icon={
                     data.name
