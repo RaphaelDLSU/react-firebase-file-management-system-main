@@ -68,7 +68,7 @@ const setUserFolders = (data) => ({
 export const getUserFolders = (userId) => async (dispatch) => {
   if (userId) {
     database.docs
-      .where("createdBy", "==", userId)
+      
       .get()
       .then((folders) => {
         const allFolders = [];
@@ -113,7 +113,6 @@ const setUserFiles = (data) => ({
 export const getUserFiles = (userId) => (dispatch) => {
   if (userId) {
     database.files
-      .where("createdBy", "==", userId)
       .get()
       .then((files) => {
         const allFiles = [];
