@@ -6,7 +6,7 @@ import {
   faFolder,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useEffect,useState } from "react"; 
+import React, { useEffect,useMemo,useState } from "react"; 
 import { Col, Row } from "react-bootstrap";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
@@ -91,12 +91,46 @@ const db=getFirestore()
       (file) => file.data.parent === "" && file.data.url !== ""
     );
 
+
+  const [list1, setList1] = useState(userFolders);
+  const [list2, setList2] = useState(createdUserFiles);
+  const [list3, setList3] = useState(uploadedUserFiles);
+
   
-    const [list1, setList1] = useState(userFolders);
-    const [list2, setList2] = useState(createdUserFiles);
-    const [searchTerm, setSearchTerm] = useState('');
-    
-    const handleSearch = (term) => {
+  useEffect(() => {
+    if (isLoading && !adminFolders) {
+      dispatch(getAdminFolders());
+      dispatch(getAdminFiles());
+      
+    }
+    if ( !userFolders) {
+      dispatch(getUserFiles(userId));
+      dispatch(getUserFolders(userId));
+      console.log('inside2: '+ userFolders+ 'here: '+ userId)
+
+    } 
+   
+  }, [dispatch, isLoading]);
+
+
+  useEffect(() => {
+   
+    if (list1==null && list2==null && list3==null){
+      setList1(userFolders)
+      setList2(createdUserFiles)
+      setList3(uploadedUserFiles)
+
+      console.log(userFolders)
+      console.log(createdUserFiles)
+      console.log(uploadedUserFiles)
+    }
+  }, [userFolders]);
+  
+  const [searchTerm, setSearchTerm] = useState('');
+  
+
+  const handleSearch = (term) => {
+
       const filteredList1 = userFolders.filter(item =>
         item.data.name.toString().toLowerCase().includes(searchTerm.toString().toLowerCase())
       );
@@ -104,26 +138,19 @@ const db=getFirestore()
       const filteredList2 = createdUserFiles.filter(item =>
         item.data.name.toString().toLowerCase().includes(searchTerm.toString().toLowerCase())
       );
+
+      const filteredList3 = uploadedUserFiles.filter(item =>
+        item.data.name.toString().toLowerCase().includes(searchTerm.toString().toLowerCase())
+      );
   
       setList1(filteredList1);
       setList2(filteredList2);
+      setList3(filteredList3)
+    
+   
+  };
+  if (isLoading && !userFolders) {
 
-      console.log(list1)
-      console.log(list2)
-    };
-  
-  useEffect(() => {
-    if (isLoading && !adminFolders) {
-      dispatch(getAdminFolders());
-      dispatch(getAdminFiles());
-    }
-    if (!userFolders) {
-      dispatch(getUserFiles(userId));
-      dispatch(getUserFolders(userId));
-    }
-  }, [dispatch, isLoading]);
-
-  if (isLoading) {
     return (
       <Row>
         <Col md="12">
@@ -178,7 +205,7 @@ const db=getFirestore()
           </Row>
         </>
       )}
-      {userFolders && userFolders.length > 0 && (
+      {userFolders && userFolders.length > 0 && list1 && list1.length >0&&(
         
         <>
           <p className="text-center border-bottom py-2">Created Folders</p>
@@ -186,7 +213,7 @@ const db=getFirestore()
           
           >
             
-            {userFolders.map(({ data, docId }) => (
+            {list1.map(({ data, docId }) => (
               <Col
               
                 onDoubleClick={() => history.push(`/dashboard/folder/${docId}`)}
@@ -224,11 +251,11 @@ const db=getFirestore()
           </Row>
         </>
       )}
-      {createdUserFiles && createdUserFiles.length > 0 && (
+      {createdUserFiles && createdUserFiles.length > 0 && list2 && list2.length > 0 &&(
         <>
           <p className="text-center border-bottom py-2">Created Files</p>
           <Row style={{ height: "auto" }} className="pt-2 gap-2 pb-4 px-5">
-            {list1.map(({ data, docId }) => (
+            {list2.map(({ data, docId }) => (
               <Col
               
                 onDoubleClick={() => history.push(`/dashboard/file/${docId}`)}
@@ -265,7 +292,7 @@ const db=getFirestore()
           </Row>
         </>
       )}
-      {uploadedUserFiles && uploadedUserFiles.length > 0 && (
+      {uploadedUserFiles && uploadedUserFiles.length > 0 && list3 && list3.length >0 && (
         <>
           <p className="text-center border-bottom py-2">Uploaded Files</p>
           <Row
@@ -273,7 +300,7 @@ const db=getFirestore()
             style={{ height: "auto" }}
             className="pt-2  gap-2 pb-4 px-5"
           >
-            {list2.map(({ data, docId }) => (
+            {list3.map(({ data, docId }) => (
               <Col 
                 onDoubleClick={() => history.push(`/dashboard/file/${docId}`)}
                 onClick={(e) => {
