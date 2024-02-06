@@ -1,11 +1,11 @@
 const PDFDocument = require('pdfkit');
 const fs = require('fs');
 
-class RFIDocumentGenerator {
-  // Function to generate RFI document
-  static generateRFIDocument() {
-    return new Promise((resolve, reject) => {
-      try {
+// class RFIDocumentGenerator {
+//   // Function to generate RFI document
+//   static generateRFIDocument() {
+//     return new Promise((resolve, reject) => {
+//       try {
         const doc = new PDFDocument();
         const stream = fs.createWriteStream('RFI_Document.pdf');
 
@@ -26,16 +26,16 @@ class RFIDocumentGenerator {
         // End the document
         doc.end();
 
-        // Handle stream finish event to resolve the promise
-        stream.on('finish', () => {
-          resolve('RFI_Document.pdf');
-        });
-      } catch (error) {
-        // If an error occurs during document generation, reject the promise with the error
-        reject(error);
-      }
-    });
-  }
-}
+//         // Handle stream finish event to resolve the promise
+//         stream.on('finish', () => {
+//           resolve('RFI_Document.pdf');
+//         });
+//       } catch (error) {
+//         // If an error occurs during document generation, reject the promise with the error
+//         reject(error);
+//       }
+//     });
+//   }
+// }
 
-module.exports = RFIDocumentGenerator;
+// module.exports = RFIDocumentGenerator;
