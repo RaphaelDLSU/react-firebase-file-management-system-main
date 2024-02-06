@@ -27,5 +27,4 @@ function generateRFIDocument() {
   doc.end();
 }
 
-// Call the function to generate RFI document
-generateRFIDocument();
+module.exports = generateRFIDocument; 

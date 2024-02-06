@@ -27,5 +27,4 @@ function generateRFADocument() {
   doc.end();
 }
 
-// Call the function to generate RFA document
-generateRFADocument();
+module.exports = generateRFADocument();
