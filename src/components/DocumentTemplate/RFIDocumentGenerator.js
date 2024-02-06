@@ -13,15 +13,21 @@ const fs = require('fs');
 
         // Add content to the RFI document
         // Add Header
-        doc.fontSize(24).text('Request for Information (RFI)', { align: 'center' });
+        doc.fontSize(24).text('Request for Information (RFI)', { 
+          align: 'center' 
+        });
         doc.moveDown();
 
         // Add Body
-        doc.fontSize(16).text('RFI Body', { align: 'center' });
+        doc.fontSize(16).text('RFI Body', { 
+          align: 'center' 
+        });
         doc.moveDown();
 
         // Add Footer
-        doc.fontSize(12).text('RFI Footer', { align: 'center' });
+        doc.fontSize(12).text('RFI Footer', { 
+          align: 'center' 
+        });
 
         // End the document
         doc.end();

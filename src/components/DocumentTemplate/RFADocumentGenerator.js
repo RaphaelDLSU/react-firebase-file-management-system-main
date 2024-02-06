@@ -12,15 +12,21 @@ const fs = require('fs');
         doc.pipe(stream);
 
         // Add  Header
-        doc.fontSize(24).text('Request for Approval (RFA)', { align: 'center' });
+        doc.fontSize(24).text('Request for Approval (RFA)', { 
+          align: 'center' 
+        });
         doc.moveDown();
 
         // Add Body
-        doc.fontSize(16).text('RFA Body', { align: 'center' });
+        doc.fontSize(16).text('RFA Body', { 
+          align: 'center' 
+        });
         doc.moveDown();
 
         // Add Footer
-        doc.fontSize(12).text('RFA Footer', { align: 'center' });
+        doc.fontSize(12).text('RFA Footer', { 
+          align: 'center' 
+        });
 
         // End the document
         doc.end();

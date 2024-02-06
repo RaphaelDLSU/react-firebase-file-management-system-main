@@ -7,6 +7,8 @@ import Login from "./components/authentication/Login";
 import NavbarComponent from "./components/Navbar";
 import Dashboard from "./components/Dashboard";
 
+// import PDF from "./components/DocumentTemplate/RFADocumentGenerator"
+
 import "./App.css";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -33,6 +35,7 @@ const App = () => {
         <Route exact path="/login" component={() => <Login />}></Route>
         <Route exact path="/signup" component={() => <Register />}></Route>
         <Route path="/dashboard" component={Dashboard} />
+        {/* <Route path="/pdf" component={PDF} /> */}
       </Switch>
     </div>
   );
