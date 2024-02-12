@@ -50,23 +50,82 @@ for (const [key, value] of Object.entries(rfiDetails)) {
   doc.text(`${key}: ${value}`);
 }
 
+// Add space
+doc.moveDown();
+
+// Insert action items section
 doc
-  .moveDown()
   .fontSize(12)
-  .text("File Attachment:", { underline: true })
+  .text("Action Items:", { underline: true })
   .moveDown()
-  .text("Attached File Name: [File Name Here]")
-  .moveDown()
-  .text("Attached File Description: [Description Here]");
+  .text("Please list the action items here:")
+  .moveDown();
+
+// Draw a dashed line above the action items section
+doc
+  .dash(5, { space: 5 })
+  .moveTo(50, doc.y - 10)
+  .lineTo(550, doc.y - 10)
+  .stroke();
+
+doc.moveDown().moveDown().moveDown();
+
+// Draw checkboxes
+const checkboxOptions = [
+  { label: "Option 1", checked: false },
+  { label: "Option 2", checked: true },
+  { label: "Option 3", checked: false },
+];
+
+const checkboxSize = 15;
+let currentY = doc.y;
+checkboxOptions.forEach((option) => {
+  drawCheckbox(50, currentY, checkboxSize, option.checked, option.label);
+  currentY += checkboxSize + 10;
+});
 
 doc.moveDown();
 
-// Insert RFI Description
-doc.text("RFI Description:", { underline: true }).moveDown();
-doc.text(`Please provide information regarding...`);
+// Add signature section
+doc
+  .fontSize(12)
+  .text("Signature:", { underline: true })
+  .moveDown()
+  .text("Please sign below: [Signature Here]"); // Placeholder for signature
+
+// Add space
+doc.moveDown();
+
+// Draw a dashed line below the signature section
+doc
+  .dash(5, { space: 5 })
+  .moveTo(50, doc.y)
+  .lineTo(550, doc.y)
+  .stroke();
 
 // Finalize PDF
 doc.end();
+
+// Function to draw a checkbox
+function drawCheckbox(x, y, size, checked, label) {
+  doc.save().translate(x, y).rect(0, 0, size, size).stroke();
+
+  if (checked) {
+    doc
+      .moveTo(x, y)
+      .lineTo(x + size, y + size)
+      .stroke();
+    doc
+      .moveTo(x + size, y)
+      .lineTo(x, y + size)
+      .stroke();
+  }
+
+  // Add label text
+  doc.fontSize(10).text(label, x + size + 10, y);
+
+  doc.restore();
+}
 
 //         // Handle stream finish event to resolve the promise
 //         stream.on('finish', () => {
