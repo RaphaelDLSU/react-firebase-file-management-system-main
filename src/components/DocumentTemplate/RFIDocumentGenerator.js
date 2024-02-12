@@ -51,6 +51,12 @@ const fs = require('fs');
       doc.text(`${key}: ${value}`);
    }
 
+   doc.moveDown()
+   .fontSize(12)
+   .text('File Attachment:', { underline: true })
+   .moveDown()
+   .text('Attached File Name: [File Name Here]')
+
     doc.moveDown();
      
     // Insert RFI Description
