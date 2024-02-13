@@ -149,6 +149,8 @@ const db=getFirestore()
     
    
   };
+
+  
   if (isLoading && !userFolders) {
 
     return (
@@ -172,7 +174,7 @@ const db=getFirestore()
 
         <button> PDF MAKER </button>
 
-        
+
       <SubNav currentFolder="root folder" />
       {adminFolders && adminFolders.length > 0 && (
         <>

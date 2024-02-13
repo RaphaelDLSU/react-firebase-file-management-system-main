@@ -11,6 +11,7 @@ import "./App.css";
 
 import { useDispatch, useSelector } from "react-redux";
 import { getUser } from "./redux/actionCreators/authActionCreators";
+import Tasks from "./components/Task Manager/Tasks";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -33,6 +34,7 @@ const App = () => {
         <Route exact path="/login" component={() => <Login />}></Route>
         <Route exact path="/signup" component={() => <Register />}></Route>
         <Route path="/dashboard" component={Dashboard} />
+        <Route path="/tasks" component={Tasks} />
       </Switch>
     </div>
   );

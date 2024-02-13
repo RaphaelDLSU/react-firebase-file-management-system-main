@@ -29,6 +29,13 @@ const NavbarComponent = () => {
       >
         File Management System
       </Navbar.Brand>
+      <Nav.Link
+              as={Button}
+              variant="success"
+              onClick={() => history.push("/tasks")}
+              active
+              size="sm"
+            > Task Manager</Nav.Link>
       <Nav style={{ marginRight: "60px" }}>
         {isLoggedIn ? (
           <>
