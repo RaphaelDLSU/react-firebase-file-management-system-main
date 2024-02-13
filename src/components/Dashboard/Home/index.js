@@ -169,6 +169,10 @@ const db=getFirestore()
           onChange={(e) => setSearchTerm(e.target.value)}
         />
         <button onClick={handleSearch}>Search</button>
+
+        <button> PDF MAKER </button>
+
+        
       <SubNav currentFolder="root folder" />
       {adminFolders && adminFolders.length > 0 && (
         <>
