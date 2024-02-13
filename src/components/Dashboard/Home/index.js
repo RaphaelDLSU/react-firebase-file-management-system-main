@@ -114,16 +114,24 @@ const Home = () => {
   async function createPDF() {
     const pdfDoc = await PDFDocument.create();
 
-    const page = pdfDoc.addPage([600, 400]); // Specify page width and height
+    const page = pdfDoc.addPage([550, 750]); // Specify page width and height
 
     const helveticaFont = await pdfDoc.embedFont(StandardFonts.Helvetica);
-    const firstPage = pdfDoc.getPages()[0];
+    
+    
     // Rest of the code...
+    page.drawText("Request For Information (RFI)", {
+      x: 210,
+      y: 700,
+      size: 10,
+      font: helveticaFont,
+      color: rgb(0, 0, 0),
+    });
 
-    firstPage.drawText("Hello, PDF World!", {
-      x: 50,
-      y: 350,
-      size: 30,
+    page.drawText("RFI#: ", {
+      x: 100,
+      y: 680,
+      size: 10,
       font: helveticaFont,
       color: rgb(0, 0, 0),
     });
