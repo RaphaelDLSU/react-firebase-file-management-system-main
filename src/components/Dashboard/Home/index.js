@@ -15,7 +15,7 @@ import "./index.css";
 import { getFirestore, doc, deleteDoc } from "firebase/firestore";
 import { toast } from "react-toastify";
 
-import { PDFDocument, rgb, StandardFonts } from "pdf-lib";
+import { PDFDocument, rgb, StandardFonts, PDFField, PDFButton } from "pdf-lib";
 
 import {
   getAdminFiles,
@@ -114,34 +114,92 @@ const Home = () => {
   async function createPDF() {
     const pdfDoc = await PDFDocument.create();
 
-    const page = pdfDoc.addPage([550, 750]); // Specify page width and height
-
+    const page = pdfDoc.addPage([600, 400]); // Specify page width and height
+    const form = pdfDoc.getForm();
     const helveticaFont = await pdfDoc.embedFont(StandardFonts.Helvetica);
-    
-    
+
+    page.setFont(helveticaFont);
+    page.setFontSize(10);
+
     // Rest of the code...
     page.drawText("Request For Information (RFI)", {
-      x: 210,
-      y: 700,
-      size: 10,
-      font: helveticaFont,
+      x: 230,
+      y: 380,
       color: rgb(0, 0, 0),
+      fontSize: 20,
     });
 
-    page.drawText("RFI#: ", {
+    // Draw RFI fields
+    page.drawText("RFI #:", { x: 50, y: 340 });
+    const rfiField = form.createTextField("rfiField");
+    rfiField.setText("RFI-001");
+    rfiField.addToPage(page, {
       x: 100,
-      y: 680,
-      size: 10,
-      font: helveticaFont,
-      color: rgb(0, 0, 0),
+      y: 340,
+      width: 70,
+      height: 12,
+      fontSize: 10,
+    });
+    rfiField.enableReadOnly();
+
+    page.drawText("DATE:", { x: 50, y: 320 });
+    const dateField = form.createTextField("dateField");
+    dateField.setText("2021-01-01");
+    dateField.addToPage(page, {
+      x: 100,
+      y: 320,
+      width: 70,
+      height: 12,
+      fontSize: 10,
+    });
+    dateField.enableReadOnly();
+
+    // Draw RFI description
+    page.drawText("RFI DESCRIPTION", { x: 50, y: 300 });
+    const descriptionField = form.createTextField("descriptionField");
+    descriptionField.setText(
+      "Please provide the specifications for the concrete to be used in the foundation."
+    );
+    descriptionField.addToPage(page, {
+      x: 50,
+      y: 260,
+      width: 500,
+      height: 35,
+      fontSize: 10,
     });
 
-    // Serialize the PDFDocument to bytes (a Uint8Array)
+    // Draw attachments section
+    page.drawText("ATTACHMENTS:", { x: 50, y: 240 });
+    const attachmentButton = form.createButton("attachmentButton");
+    attachmentButton.addToPage("Attach File", page, {
+      x: 50,
+      y: 210,
+      width: 100,
+      height: 20,
+      backgroundColor: rgb(0.95, 0.95, 0.95),
+      borderColor: rgb(0.7, 0.7, 0.7),
+    });
+
+    // Draw response section
+    page.drawText("RESPONSE TO RFI", { x: 50, y: 180 });
+    const responseField = form.createTextField("responseField");
+    responseField.setText(
+      "Please provide the specifications for the concrete to be used in the foundation."
+    );
+    responseField.addToPage(page, {
+      x: 50,
+      y: 140,
+      width: 500,
+      height: 35,
+      fontSize: 10,
+    });
+
+    // Serialize the PDFDocument to bytes
     const pdfBytes = await pdfDoc.save();
     const blob = new Blob([pdfBytes], { type: "application/pdf" });
     const url = URL.createObjectURL(blob);
-    window.open(url, '_blank');
-  };
+    window.open(url, "_blank");
+  }
 
   const [searchTerm, setSearchTerm] = useState("");
 
