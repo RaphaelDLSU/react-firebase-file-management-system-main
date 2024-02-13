@@ -249,7 +249,7 @@ const Home = () => {
       />
       <button onClick={handleSearch}>Search</button>
 
-      <button onClick={createPDF}>PDFMAKER</button>
+      <button onClick={createPDF}>Create RFI</button>
 
       <SubNav currentFolder="root folder" />
       {adminFolders && adminFolders.length > 0 && (
