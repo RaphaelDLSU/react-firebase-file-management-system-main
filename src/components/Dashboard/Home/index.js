@@ -116,7 +116,7 @@ const Home = () => {
 
     const page = pdfDoc.addPage([600, 400]); // Specify page width and height
 
-    const helveticaFont = pdfDoc.embedFont(StandardFonts.Helvetica);
+    const helveticaFont = await pdfDoc.embedFont(StandardFonts.Helvetica);
     const firstPage = pdfDoc.getPages()[0];
     // Rest of the code...
 
@@ -124,7 +124,7 @@ const Home = () => {
       x: 50,
       y: 350,
       size: 30,
-      // font: helveticaFont,
+      font: helveticaFont,
       color: rgb(0, 0, 0),
     });
 
