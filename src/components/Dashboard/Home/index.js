@@ -112,87 +112,44 @@ const Home = () => {
   }, [userFolders]);
 
   async function createPDF() {
-    const pdfDoc = await PDFDocument.create();
+    // Create a new PDFDocument
+    const formUrl = 'Free_RFI_Template_unlocked.pdf';
+    const formPdfBytes = await fetch(formUrl).then((res) => res.arrayBuffer());
 
-    const page = pdfDoc.addPage([600, 400]); // Specify page width and height
+    //Load PDF
+    const pdfDoc = await PDFDocument.load(formPdfBytes);
+    //Get Form
     const form = pdfDoc.getForm();
-    const helveticaFont = await pdfDoc.embedFont(StandardFonts.Helvetica);
 
-    page.setFont(helveticaFont);
-    page.setFontSize(10);
+    //Get all fields
+    const rfiField = form.getTextField("rfi");
+    const dateField = form.getTextField("Date1");
+    const submitToField = form.getTextField("Submitted_To");
+    const neededByField = form.getTextField("Needed_By");
+    const projectNameField = form.getTextField("Project_Name");
+    const projectNumberField = form.getTextField("Project_Number");
+    const submitByField = form.getTextField("Submitted_By");
+    const rfiDescriptionField = form.getTextField("RFI_Desc");
+    const submitByField2 = form.getTextField("Submitted_By_2");
+    const responseDescriptionField = form.getTextField("Response_Desc");
+    const dateField2 = form.getTextField("Date2");
+    const responseByField = form.getTextField("Response_By");
+    const attachmentButton = form.getButton("Attachment");
 
-    // Rest of the code...
-    page.drawText("Request For Information (RFI)", {
-      x: 230,
-      y: 380,
-      color: rgb(0, 0, 0),
-      fontSize: 20,
-    });
+    //Fill in basic fields
+    rfiField.setText("RFI-1");
+    dateField.setText("01/01/2022");
+    submitToField.setText("John Doe");
+    neededByField.setText("01/01/2023");
+    projectNameField.setText("Project 1");
+    projectNumberField.setText("12345");
+    submitByField.setText("Jane Doe");
+    rfiDescriptionField.setText("Description 1");
+    submitByField2.setText("Jane Doe");
+    responseDescriptionField.setText("Description 2");
+    dateField2.setText("01/01/2022");
+    responseByField.setText("John Doe");
 
-    // Draw RFI fields
-    page.drawText("RFI #:", { x: 50, y: 340 });
-    const rfiField = form.createTextField("rfiField");
-    rfiField.setText("RFI-001");
-    rfiField.addToPage(page, {
-      x: 100,
-      y: 340,
-      width: 70,
-      height: 12,
-      fontSize: 10,
-    });
-    rfiField.enableReadOnly();
-
-    page.drawText("DATE:", { x: 50, y: 320 });
-    const dateField = form.createTextField("dateField");
-    dateField.setText("2021-01-01");
-    dateField.addToPage(page, {
-      x: 100,
-      y: 320,
-      width: 70,
-      height: 12,
-      fontSize: 10,
-    });
-    dateField.enableReadOnly();
-
-    // Draw RFI description
-    page.drawText("RFI DESCRIPTION", { x: 50, y: 300 });
-    const descriptionField = form.createTextField("descriptionField");
-    descriptionField.setText(
-      "Please provide the specifications for the concrete to be used in the foundation."
-    );
-    descriptionField.addToPage(page, {
-      x: 50,
-      y: 260,
-      width: 500,
-      height: 35,
-      fontSize: 10,
-    });
-
-    // Draw attachments section
-    page.drawText("ATTACHMENTS:", { x: 50, y: 240 });
-    const attachmentButton = form.createButton("attachmentButton");
-    attachmentButton.addToPage("Attach File", page, {
-      x: 50,
-      y: 210,
-      width: 100,
-      height: 20,
-      backgroundColor: rgb(0.95, 0.95, 0.95),
-      borderColor: rgb(0.7, 0.7, 0.7),
-    });
-
-    // Draw response section
-    page.drawText("RESPONSE TO RFI", { x: 50, y: 180 });
-    const responseField = form.createTextField("responseField");
-    responseField.setText(
-      "Please provide the specifications for the concrete to be used in the foundation."
-    );
-    responseField.addToPage(page, {
-      x: 50,
-      y: 140,
-      width: 500,
-      height: 35,
-      fontSize: 10,
-    });
 
     // Serialize the PDFDocument to bytes
     const pdfBytes = await pdfDoc.save();
