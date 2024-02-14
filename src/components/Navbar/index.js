@@ -19,7 +19,7 @@ const NavbarComponent = () => {
   const logout = () => {
     dispatch(logoutUser());
   };
-
+console.log(user)
   return (
     <Navbar bg="dark" expand="lg" variant="dark">
       <Navbar.Brand

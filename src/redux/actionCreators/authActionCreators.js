@@ -23,6 +23,7 @@ export const registerUser =
         const newUser = userModel(email, name, user.user.uid);
         auth.currentUser.updateProfile({
           displayName: name,
+          uid: user.user.uid,
         });
 
         database.users.add(newUser).then((usr) => {

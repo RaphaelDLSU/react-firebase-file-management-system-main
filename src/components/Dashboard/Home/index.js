@@ -221,7 +221,6 @@ const db=getFirestore()
             
             {list1.map(({ data, docId }) => (
               <Col
-              
                 onDoubleClick={() => history.push(`/dashboard/folder/${docId}`)}
                 onClick={(e) => {
                   if (e.currentTarget.classList.contains("text-white")) {
