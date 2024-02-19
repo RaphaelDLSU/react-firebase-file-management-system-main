@@ -16,6 +16,7 @@ import { getFirestore, doc, deleteDoc } from "firebase/firestore";
 import { toast } from "react-toastify";
 
 import { PDFDocument, rgb, StandardFonts, PDFField, PDFButton } from "pdf-lib";
+import RFI_Template from "./Free_RFI_Template_unlocked.pdf";
 
 import {
   getAdminFiles,
@@ -113,11 +114,14 @@ const Home = () => {
 
   async function createPDF() {
     // Create a new PDFDocument
-    const formUrl = 'Free_RFI_Template_unlocked.pdf';
+    const formUrl = 'https://firebasestorage.googleapis.com/v0/b/italpinas-dms.appspot.com/o/files%2FlgyVDEoMlPhvBFyi4y8a4rIFAoM2%2FFree_RFI_Template_unlocked.pdf?alt=media&token=eca90813-fc58-47bc-8866-c95549dad915';
     const formPdfBytes = await fetch(formUrl).then((res) => res.arrayBuffer());
+    console.log('Test1');
 
     //Load PDF
+    console.log('Lebron James2');
     const pdfDoc = await PDFDocument.load(formPdfBytes);
+    console.log('Lebron James23');
     //Get Form
     const form = pdfDoc.getForm();
 
