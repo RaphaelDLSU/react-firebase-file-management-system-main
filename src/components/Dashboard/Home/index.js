@@ -114,14 +114,12 @@ const Home = () => {
 
   async function createPDF() {
     // Create a new PDFDocument
-    const formUrl = 'https://firebasestorage.googleapis.com/v0/b/italpinas-dms.appspot.com/o/files%2FlgyVDEoMlPhvBFyi4y8a4rIFAoM2%2FFree_RFI_Template_unlocked.pdf?alt=media&token=eca90813-fc58-47bc-8866-c95549dad915';
+    const formUrl =
+      "https://firebasestorage.googleapis.com/v0/b/italpinas-dms.appspot.com/o/files%2FlgyVDEoMlPhvBFyi4y8a4rIFAoM2%2FFree_RFI_Template_unlocked.pdf?alt=media&token=41ee657d-f3ae-4a4d-ac8c-fd9ee8c3dd34";
     const formPdfBytes = await fetch(formUrl).then((res) => res.arrayBuffer());
-    console.log('Test1');
 
     //Load PDF
-    console.log('Lebron James2');
     const pdfDoc = await PDFDocument.load(formPdfBytes);
-    console.log('Lebron James23');
     //Get Form
     const form = pdfDoc.getForm();
 
