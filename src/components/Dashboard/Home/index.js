@@ -112,7 +112,7 @@ const Home = () => {
     }
   }, [userFolders]);
 
-  async function createPDF() {
+  async function createRFI() {
     // Create a new PDFDocument
     const formUrl =
       "https://firebasestorage.googleapis.com/v0/b/italpinas-dms.appspot.com/o/files%2FlgyVDEoMlPhvBFyi4y8a4rIFAoM2%2FFree_RFI_Template_unlocked.pdf?alt=media&token=41ee657d-f3ae-4a4d-ac8c-fd9ee8c3dd34";
@@ -172,6 +172,33 @@ const Home = () => {
     window.open(url, "_blank");
   }
 
+  async function createRFA() {
+    // Create a new PDFDocument
+    const formUrl = "";
+    const formPdfBytes = await fetch(formUrl).then((res) => res.arrayBuffer());
+
+    //Load PDF
+    const pdfDoc = await PDFDocument.load(formPdfBytes);
+    //Get Form
+    const form = pdfDoc.getForm();
+
+    //Get all fields
+
+
+    //Creating variables
+
+
+    //Fill in basic fields
+
+
+
+    // Serialize the PDFDocument to bytes
+    const pdfBytes = await pdfDoc.save();
+    const blob = new Blob([pdfBytes], { type: "application/pdf" });
+    const url = URL.createObjectURL(blob);
+    window.open(url, "_blank");
+  }
+
   const [searchTerm, setSearchTerm] = useState("");
 
   const handleSearch = (term) => {
@@ -220,7 +247,9 @@ const Home = () => {
       />
       <button onClick={handleSearch}>Search</button>
 
-      <button onClick={createPDF}>Create RFI</button>
+      <button onClick={createRFI}>Create RFI</button>
+
+      <button onClick={createRFA}>Create RFA</button>
 
       <SubNav currentFolder="root folder" />
       {adminFolders && adminFolders.length > 0 && (
