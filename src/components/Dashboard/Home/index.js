@@ -16,7 +16,7 @@ import { getFirestore, doc, deleteDoc } from "firebase/firestore";
 import { toast } from "react-toastify";
 
 import { PDFDocument, rgb, StandardFonts, PDFField, PDFButton } from "pdf-lib";
-import RFI_Template from "./Free_RFI_Template_unlocked.pdf";
+
 
 import {
   getAdminFiles,
@@ -137,6 +137,18 @@ const Home = () => {
     const dateField2 = form.getTextField("Date2");
     const responseByField = form.getTextField("Response_By");
     const attachmentButton = form.getButton("Attachment");
+
+    //Creating variables
+    const actualRFI = {};
+    const actualDate = {};
+    const actualSubmitTo = {};
+    const actualNeededBy = {};
+    const actualProjectName = {};
+    const actualProjectNumber = {};
+    const actualSubmitBy = {};
+    const actualSubmitBy2 = {};
+    const actualDate2 = {};
+    const actualResponseBy = {};
 
     //Fill in basic fields
     rfiField.setText("RFI-1");
