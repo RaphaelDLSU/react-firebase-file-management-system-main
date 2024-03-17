@@ -15,7 +15,7 @@ import "./index.css";
 import { getFirestore, doc, deleteDoc } from "firebase/firestore";
 import { toast } from "react-toastify";
 
-import { PDFDocument, rgb, StandardFonts, PDFField, PDFButton } from "pdf-lib";
+import { PDFDocument, rgb, StandardFonts, PDFField, PDFButton, PDFCheckBox } from "pdf-lib";
 
 import {
   getAdminFiles,
@@ -171,7 +171,7 @@ const Home = () => {
   //Create RFA
   async function createRFA() {
     // Create a new PDFDocument
-    const formUrl = "https://firebasestorage.googleapis.com/v0/b/italpinas-dms.appspot.com/o/files%2FlgyVDEoMlPhvBFyi4y8a4rIFAoM2%2FRFA_Template.pdf?alt=media&token=24cc79ed-b940-45bf-a0ac-5895cd6a23c4";
+    const formUrl = "https://firebasestorage.googleapis.com/v0/b/italpinas-dms.appspot.com/o/files%2FgjDICmf1RLYW9Zz7gzekFecTO2m2%2FRFA_Template_v4.pdf?alt=media&token=0b68b4de-11ef-41d2-a857-bb633987c3c4";
     const formPdfBytes = await fetch(formUrl).then((res) => res.arrayBuffer());
 
     //Load PDF
@@ -180,20 +180,45 @@ const Home = () => {
     const form = pdfDoc.getForm();
 
     //Get all fields
-    const fields = form.getFields();
-    fields.forEach((field) => {
-      const type = field.constructor.name;
-      const name = field.getName();
-      field.enableReadOnly();
-      console.log(`${type}: ${name}`);
-    });
-    // const submitalID = form.getTextField("Submittal_ID");
-    // const projectID = form.getTextField("Project_ID");
-    // const projectName = form.getTextField("Project_Name");
-    // const date = form.getTextField("Date");
-    //Creating variables
+    const rfaField = form.getTextField("rfa");
+    const dateField = form.getTextField("Date1");
+    const submitToField = form.getTextField("Submitted_To");
+    const attentionField = form.getTextField("Needed_By");
+    const projectNameField = form.getTextField("Project_Name");
+    const projectNumberField = form.getTextField("Project_Number");
+    const submitByField = form.getTextField("Submitted_By");
+    const rfaDescriptionField = form.getTextField("RFA_Desc");
+    const submitByField2 = form.getTextField("Submitted_By_2");
+    const responseDescriptionField = form.getTextField("Response_Desc");
+    const dateField2 = form.getTextField("Date2");
+    const responseByField = form.getTextField("Response_By");
+    const attachmentButton = form.getButton("Attachment");
+    const checkbox_A = form.getCheckBox("Checkbox_a");
+    const checkbox_B = form.getCheckBox("Checkbox_b");
+    const checkbox_C = form.getCheckBox("Checkbox_c");
+    const checkbox_D = form.getCheckBox("Checkbox_d");
+    const checkbox_E = form.getCheckBox("Checkbox_e");
 
     //Fill in basic fields
+    rfaField.setText("RFA-1");
+    dateField.setText("01/01/2022");
+    submitToField.setText("John Doe");
+    attentionField.setText("01/01/2023");
+    projectNameField.setText("Project 1");
+    projectNumberField.setText("12345");
+    submitByField.setText("Jane Doe");
+    rfaDescriptionField.setText("Description 1");
+    submitByField2.setText("Jane Doe");
+    responseDescriptionField.setText("Description 2");
+    dateField2.setText("01/01/2022");
+    responseByField.setText("John Doe");
+    //delete if you dont want checkbox to be checked
+    checkbox_A.check();
+    checkbox_B.check();
+    checkbox_C.check();
+    checkbox_D.check();
+    checkbox_E.check();
+
 
     // Serialize the PDFDocument to bytes
     const pdfBytes = await pdfDoc.save();
