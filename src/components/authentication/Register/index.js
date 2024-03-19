@@ -9,6 +9,7 @@ const Register = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [role,setRole]= useState('')
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
 
@@ -23,7 +24,7 @@ const Register = () => {
       return toast.dark("Please fill in all fields!");
 
     if (password !== confirmPassword)
-      return toast.dark("Passwords donot match!");
+      return toast.dark("Passwords do not match!");
 
     if (password.length < 8) {
       return toast.dark("Password must be of length 8 or more");
@@ -32,7 +33,7 @@ const Register = () => {
       !/^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/.test(password)
     ) {
       return toast.dark(
-        "Password must have alteast a number and a special character!"
+        "Password must have at least a number and a special character!"
       );
     }
 
@@ -40,6 +41,7 @@ const Register = () => {
       name,
       email,
       password,
+      role,
     };
 
     dispatch(registerUser(data, setError));
@@ -93,6 +95,12 @@ const Register = () => {
                 onChange={(e) => setConfirmPassword(e.target.value)}
               />
             </Form.Group>
+            <Form.Select onChange={(e)=>setRole(e.target.value)}aria-label="Default select example">
+              <option hidden value>Role </option>
+              <option value="CEO">CEO</option>
+              <option value="Manager">Manager</option>
+              <option value="Employee">Employee</option>
+            </Form.Select>
             <Form.Group controlId="formBasicBtn" className="mt-3">
               <Button
                 variant="primary"

@@ -8,6 +8,7 @@ import Home from "./Home";
 import FolderAdminComponent from "./FolderAdminComponent";
 import FolderComponent from "./FolderComponent";
 import FileComponent from "./FileComponent";
+import NavbarComponent from "../Navbar";
 
 const Dashboard = () => {
   const history = useHistory();
@@ -26,7 +27,7 @@ const Dashboard = () => {
   }, [isLoggedIn]);
   return (
     <Container fluid className="px-0" style={{ overflowX: "hidden" }}>
-      <NavDashboard />
+      <NavbarComponent />
       <Switch >
         <Route exact path={path} component={Home} />
         <Route

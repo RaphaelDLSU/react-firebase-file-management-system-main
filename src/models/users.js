@@ -1,6 +1,6 @@
 import { database } from "../API/firebase";
 
-const userModel = (email, name, uid) => {
+const userModel = (email, name, uid,role,tasks) => {
   const model = {
     createdAt: database.date,
     docs: [],
@@ -10,6 +10,8 @@ const userModel = (email, name, uid) => {
     name: name,
     uid: uid,
     updatedAt: database.date,
+    tasks: tasks,
+    role:role
   };
   return model;
 };

@@ -138,6 +138,7 @@ export const addFileUser =
     database.files
       .add(fileModel(uid, parent, data, name, url, path))
       .then(async (doc) => {
+        console.log('in async')
         const data = await doc.get();
         dispatch(addUserFile({ data: data.data(), docId: data.id }));
         if (data.data().url === "") {
@@ -148,6 +149,7 @@ export const addFileUser =
         }
       })
       .catch((err) => {
+        console.log(uid+parent+data+name+' Url'+url+'path'+path)
         console.log(err);
         toast.error("Something went wrong!");
       });

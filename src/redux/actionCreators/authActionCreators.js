@@ -14,16 +14,19 @@ const resetUser = () => ({
 });
 
 export const registerUser =
-  ({ name, email, password }, setError) =>
+  ({ name, email, password,role }, setError) =>
   (dispatch) => {
+
+    console.log(name, email, password,role)
     auth
       .createUserWithEmailAndPassword(email, password)
       .then((user) => {
         setError("");
-        const newUser = userModel(email, name, user.user.uid);
+        const newUser = userModel(email, name, user.user.uid,role,0);
         auth.currentUser.updateProfile({
           displayName: name,
           uid: user.user.uid,
+          role:role
         });
 
         database.users.add(newUser).then((usr) => {
