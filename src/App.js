@@ -26,7 +26,7 @@ import Notifications from "./components/Notifications";
 import { ReactComponent as ButtonIcon } from "./assets/icons/robot.svg";
 import { ConditionallyRender } from "react-util-kit";
 import TaskManager from "./components/Task Manager";
-import DocumentCreation from "./components/Document Creation/DocumentCreation";
+import DocumentCreation from "./components/Document Creation";
 const App = () => {
   const dispatch = useDispatch();
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
