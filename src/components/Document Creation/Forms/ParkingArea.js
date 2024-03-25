@@ -39,15 +39,10 @@ const ParkingArea = () => {
                         <Form.Control placeholder="Unit No./Tag" />
                     </Col>
                     <Col>
-                        <Form.Select aria-label="Default select example">
-                            <option>Select service area type</option>
-                            <option value="Commerical Retail">Commerical Retail</option>
-                            <option value="Restaurant">Restaurant</option>
-                            <option value="Conference">Conference</option>
-                        </Form.Select>
+                        <Form.Control placeholder="No. of Parking" />
                     </Col>
                     <Col>
-                        <Form.Control placeholder="Area (sqm)" />
+                        <Form.Control placeholder="Slot size (sqm)" />
                     </Col>
                     <Col>
                         <Button variant="primary" type="submit">

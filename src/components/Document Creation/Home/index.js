@@ -17,6 +17,8 @@ import ServiceArea from "../Forms/ServiceArea";
 import SaleableArea from "../Forms/SaleableArea";
 import ParkingArea from "../Forms/ParkingArea";
 import { AccordionItem } from "react-bootstrap";
+import AmenitiesArea from "../Forms/AmenitiesArea";
+import ResidentialArea from "../Forms/ResidentialArea";
 
 const DocumentCreation = () => {
     const database = getFirestore()
@@ -28,6 +30,7 @@ const DocumentCreation = () => {
     const [number1, setNumber1] = useState('');
     const [number2, setNumber2] = useState('');
     const [sum, setSum] = useState('');
+    const [show, setShow] = useState(false);
     
     const handleChange = (event) => {
         const name = event.target.name;
@@ -64,9 +67,54 @@ const DocumentCreation = () => {
             setSum(sum);
     };
 
+    const submitTask = async (e) => {
+        // e.preventDefault();
+        // console.log('WAHEHE')
+
+        // console.log('INPUTS' + JSON.stringify(inputs))
+        // for (const input of inputs) {
+        //     console.log(input.employee)
+        //     const taskRef = collection(database, "tasks");
+
+        //     const q = query(collection(database, "users"), where("email", "==", input.employee));
+
+        //     console.log('there are inputs :)')
+        //     const querySnapshot = await getDocs(q);
+        //     querySnapshot.forEach(async (user) => {
+
+        //         let approvalTemp = false
+        //         let isApproval = ''
+        //         if (approval == '') {
+        //             approvalTemp = 'Manager and CEO'
+        //             isApproval = true
+        //         }
+        //         await addDoc(taskRef, {
+        //             approval: isApproval,
+        //             approvalTo: approvalTemp,
+        //             employee: user.data().name,
+        //             employeeId: user.data().email,
+        //             project: project,
+        //             requirements: [{ value: input.requirement, id: Math.random().toString(36).slice(2, 7) }],
+        //             status: 'for submission',
+        //             task: plan,
+        //             timestamp: new Date(),
+        //             stage: stage,
+        //             hours: hours,
+        //             deadline: deadline,
+        //             workflowname: workflowOfStage,
+        //             workflow: workflowIdOfStage
+        //         })
+        //     });
+
+        // }
+        // console.log('finished')
+    };
+
     return (
         <div className="form" style={{ padding: '20px' }}>
-            <h2>Document Creation</h2>
+            <h2>Document Creation</h2> 
+            <p>Create Building Surface Document</p>
+            <Button onClick={() => setShow(true)}>Add Floor</Button>
             <hr></hr>
             <Form onSubmit={handleSubmit}>
                 <div className="fullForm">
@@ -93,13 +141,13 @@ const DocumentCreation = () => {
                         <Accordion.Item eventKey="3">
                             <Accordion.Header>Description of the Amenities Area</Accordion.Header>
                             <Accordion.Body>
-
+                                <AmenitiesArea></AmenitiesArea>
                             </Accordion.Body>
                         </Accordion.Item>
                         <Accordion.Item eventKey="4">
                             <Accordion.Header>Description of the Residential Area</Accordion.Header>
                             <Accordion.Body>
-                                
+                                <ResidentialArea></ResidentialArea>
                             </Accordion.Body>
                         </Accordion.Item>
                     </Accordion>
