@@ -2,13 +2,21 @@ import React, { useEffect, useState } from "react";
 import ReactDOM from 'react-dom';
 import { where, collection, getDocs, addDoc, doc, runTransaction, orderBy, query, serverTimestamp, getFirestore, updateDoc, arrayUnion, getDoc, deleteDoc, setDoc, QueryConstraint } from 'firebase/firestore'
 import { getStorage, ref, uploadBytesResumable, getDownloadURL, } from "firebase/storage";
+
+//Bootstrap components
 import Spinner from 'react-bootstrap/Spinner';
 import Table from 'react-bootstrap/Table';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import Collapse from 'react-bootstrap/Collapse';
+import Accordion from 'react-bootstrap/Accordion';
+
+//Import forms
+import ServiceArea from "../Forms/ServiceArea";
+import SaleableArea from "../Forms/SaleableArea";
+import ParkingArea from "../Forms/ParkingArea";
+import { AccordionItem } from "react-bootstrap";
 
 const DocumentCreation = () => {
     const database = getFirestore()
@@ -60,135 +68,43 @@ const DocumentCreation = () => {
         <div className="form" style={{ padding: '20px' }}>
             <h2>Document Creation</h2>
             <hr></hr>
-            <h3>Ground Floor</h3>
-            <Button
-            onClick={() => setOpen(!open)}
-            aria-controls="example-collapse-text"
-            aria-expanded={open}
-            >
-            Show
-            </Button>
-            <Collapse in={open}>
-                <Form onSubmit={handleSubmit}>
-                    <h4>Description of the Saleable Area</h4>
-                    <Table striped>
-                        <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Unit No./Tag</th>
-                            <th>Type</th>
-                            <th>Area (sqm)</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>C01</td>
-                            <td>Commercial Retail</td>
-                            <td>10</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>C02</td>
-                            <td>Commercial Retail</td>
-                            <td>20</td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td>C03</td>
-                            <td>Commerical Retail</td>
-                            <td>30</td>
-                        </tr>
-                        <tr>
-                            <td colSpan={3}>TOTAL</td>
-                            <td>60</td>
-                        </tr>
-                        </tbody>
-                    </Table>
-                    <Form.Group>
-                        <Row>
-                            <Col>
-                                <Form.Control placeholder="Unit No./Tag" />
-                            </Col>
-                            <Col>
-                                <Form.Select aria-label="Default select example">
-                                    <option>Select saleable area type</option>
-                                    <option value="Commerical Retail">Commerical Retail</option>
-                                    <option value="Restaurant">Restaurant</option>
-                                    <option value="Conference">Conference</option>
-                                </Form.Select>
-                            </Col>
-                            <Col>
-                                <Form.Control placeholder="Area (sqm)" />
-                            </Col>
-                            <Col>
-                                <Button variant="primary" type="submit">
-                                    Add
-                                </Button>
-                            </Col>
-                        </Row>
-                    </Form.Group>
-                    <br/>
-                    <h4>Description of the Service Area</h4>
-                    <Table striped>
-                        <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Unit No./Tag</th>
-                            <th>Type</th>
-                            <th>Area (sqm)</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>C01</td>
-                            <td>Commercial Retail</td>
-                            <td>10</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>C02</td>
-                            <td>Commercial Retail</td>
-                            <td>20</td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td>C03</td>
-                            <td>Commerical Retail</td>
-                            <td>30</td>
-                        </tr>
-                        <tr>
-                            <td colSpan={3}>TOTAL</td>
-                            <td>60</td>
-                        </tr>
-                        </tbody>
-                    </Table>
-                    <Form.Group>
-                        <Row>
-                            <Col>
-                                <Form.Control placeholder="Unit No./Tag" />
-                            </Col>
-                            <Col>
-                                <Form.Select aria-label="Default select example">
-                                    <option>Select saleable area type</option>
-                                    <option value="Commerical Retail">Commerical Retail</option>
-                                    <option value="Restaurant">Restaurant</option>
-                                    <option value="Conference">Conference</option>
-                                </Form.Select>
-                            </Col>
-                            <Col>
-                                <Form.Control placeholder="Area (sqm)" />
-                            </Col>
-                            <Col>
-                                <Button variant="primary" type="submit">
-                                    Add
-                                </Button>
-                            </Col>
-                        </Row>
-                    </Form.Group>
-                </Form>
-            </Collapse>
+            <Form onSubmit={handleSubmit}>
+                <div className="fullForm">
+                    <h3>Ground Floor</h3>
+                    <Accordion defaultActiveKey={['0']} alwaysOpen>
+                        <Accordion.Item eventKey="0">
+                            <Accordion.Header>Description of the Saleable Area</Accordion.Header>
+                            <Accordion.Body>   
+                                <SaleableArea></SaleableArea>
+                            </Accordion.Body>
+                        </Accordion.Item>
+                        <Accordion.Item eventKey="1">
+                            <Accordion.Header>Description of the Service Area</Accordion.Header>
+                            <Accordion.Body>
+                                <ServiceArea></ServiceArea>
+                            </Accordion.Body>
+                        </Accordion.Item>
+                        <Accordion.Item eventKey="2">
+                            <Accordion.Header>Parking Area</Accordion.Header>
+                            <Accordion.Body>
+                                <ParkingArea></ParkingArea>
+                            </Accordion.Body>
+                        </Accordion.Item>
+                        <Accordion.Item eventKey="3">
+                            <Accordion.Header>Description of the Amenities Area</Accordion.Header>
+                            <Accordion.Body>
+
+                            </Accordion.Body>
+                        </Accordion.Item>
+                        <Accordion.Item eventKey="4">
+                            <Accordion.Header>Description of the Residential Area</Accordion.Header>
+                            <Accordion.Body>
+                                
+                            </Accordion.Body>
+                        </Accordion.Item>
+                    </Accordion>
+                </div>
+            </Form>
         </div>
 
         // <form onSubmit={handleSubmit}>
